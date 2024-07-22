@@ -57,16 +57,16 @@ modules:
     buildsystem: simple
     sources:
       - type: archive
-        sha256: 89ab3ae4694bc15210b21163d8256a987744c9973ff563d2a15a4b9c90fd9ccd
-        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v1.2.1.tar.gz
+        sha256: 4852c4e313fa921cc8216219956c877f1d1983e9b3a10f72608d2c45ab46743e
+        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v1.3.0.tar.gz
 
       - type: file
         sha256: cddc72a740395eaa760c2eb8e757a3f14ec377a286f257df542bd62614c6583a
         url: https://s.metamuffin.org/static/hurrycurry-1.2/book.webp.tar.zst
 
       - type: archive
-        sha256: 872a3b55bff2d3abeb73ba2c9fc680572276e6a4074412f6782834dd02503cb9
-        url: https://codeberg.org/hurrycurry/hurrycurry-dist-extra/archive/v1.2.1.tar.gz
+        sha256: 478f3a13dab28da27a6d870a3567cd1e6f09130ac27c3476f07b60f4ce309ed3
+        url: https://codeberg.org/hurrycurry/hurrycurry-dist-extra/archive/v1.3.0.tar.gz
 
     build-commands:
       - tar -xf book.webp.tar.zst -C client/menu/book
