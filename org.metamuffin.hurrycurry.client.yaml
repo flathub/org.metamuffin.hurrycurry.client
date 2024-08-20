@@ -5,7 +5,8 @@ sdk: org.freedesktop.Sdk
 command: hurrycurry
 finish-args:
   - --share=ipc
-  - --socket=x11
+  - --socket=wayland
+  - --socket=fallback-x11
   - --socket=pulseaudio
   - --device=dri
   - --share=network
@@ -41,8 +42,8 @@ modules:
 
     sources:
       - type: archive
-        sha256: da14e36448f1efd2955fe85d7ededc9e6ac8c893f76723b4852e7587306c761d
-        url: https://downloads.tuxfamily.org/godotengine/4.2.2/godot-4.2.2-stable.tar.xz
+        sha256: 751e55bfad8e04b846f9cf7b6eb80e058986a2cb1b103fc0fe6a4d8526a20e56
+        url: https://downloads.tuxfamily.org/godotengine/4.3/godot-4.3-stable.tar.xz
 
       - type: file
         path: custom.py
@@ -57,8 +58,8 @@ modules:
     buildsystem: simple
     sources:
       - type: archive
-        sha256: cac61e15414fcaad18a10836e68bcc7d5af3694d9e8901488544397fcb5adc3d
-        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v1.4.0.tar.gz
+        sha256: 847888ff40ceaa59179663d1afb3cc9fefe36885189b9b536248bcb625941011
+        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v1.5.0.tar.gz
 
       - type: file
         sha256: cddc72a740395eaa760c2eb8e757a3f14ec377a286f257df542bd62614c6583a
