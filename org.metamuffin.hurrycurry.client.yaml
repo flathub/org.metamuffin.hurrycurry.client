@@ -57,8 +57,8 @@ modules:
     buildsystem: simple
     sources:
       - type: archive
-        sha256: cac61e15414fcaad18a10836e68bcc7d5af3694d9e8901488544397fcb5adc3d
-        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v1.4.0.tar.gz
+        sha256: 847888ff40ceaa59179663d1afb3cc9fefe36885189b9b536248bcb625941011
+        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v1.5.0.tar.gz
 
       - type: file
         sha256: cddc72a740395eaa760c2eb8e757a3f14ec377a286f257df542bd62614c6583a
