@@ -5,7 +5,8 @@ sdk: org.freedesktop.Sdk
 command: hurrycurry
 finish-args:
   - --share=ipc
-  - --socket=x11
+  - --socket=wayland
+  - --socket=fallback-x11
   - --socket=pulseaudio
   - --device=dri
   - --share=network
