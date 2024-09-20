@@ -62,8 +62,8 @@ modules:
         url: https://codeberg.org/hurrycurry/hurrycurry/archive/v2.0.0.tar.gz
 
       - type: file
-        sha256: 8f485bcd0e2d36ceed9ad3cdeb6369c034da2e53ff64ca0c8ebfb3de3f34777f
-        url: https://s.metamuffin.org/static/hurrycurry-1.5/book.webp.tar.zst
+        sha256: 294062c1e23a47f6bf4277ab5bcd51c9ddcb65fd5ece22b48c0171b465a9d3e7
+        url: https://s.metamuffin.org/static/hurrycurry-2.0/book.webp.tar.zst
 
       - type: archive
         sha256: 151fb4fcec92a59a8991154fddc51c165b2362cc27a26cf5dafe36ef9ef22cc9
