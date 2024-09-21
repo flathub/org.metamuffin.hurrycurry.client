@@ -69,7 +69,7 @@ modules:
         sha256: 151fb4fcec92a59a8991154fddc51c165b2362cc27a26cf5dafe36ef9ef22cc9
         url: https://codeberg.org/hurrycurry/hurrycurry-dist-extra/archive/v2.0.0.tar.gz
       
-      - type: archive
+      - type: file
         sha256: d3a69a6d27baf68c40ff7ca6ee5309b7aa233f80d8cd7c2c827837e78ef84c08
         url: https://codeberg.org/hurrycurry/hurrycurry/releases/download/v2.0.0/translations-po.tar.xz
 
