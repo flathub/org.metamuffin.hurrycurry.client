@@ -86,8 +86,8 @@ modules:
         CARGO_HOME: /run/build/hurrycurry/cargo
     sources:
       - type: archive
-        sha256: f842d76a5691fbfbca25270ae991a966dfed9fea665798459288c2a0f322851a
-        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v2.1.0.tar.gz
+        sha256: f165fd6ddd2b0ce22cdb010049a8a39dd74de4943dbf0e994e6e0ca02b6b2a54
+        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v2.1.1.tar.gz
 
       - generated-sources.json
 
@@ -96,15 +96,15 @@ modules:
         url: https://s.metamuffin.org/static/hurrycurry-2.0/book.webp.tar.zst
 
       - type: archive
-        sha256: 9a75463341f59146cf3b9885ec2e7bfde821c12741c1bd752193475af9cc342d
-        url: https://codeberg.org/hurrycurry/hurrycurry-dist-extra/archive/v2.1.0.tar.gz
+        sha256: 9b424afefb6ff38b2b42872e9937a0c264311bd82b25304fba078416b1d3d53c
+        url: https://codeberg.org/hurrycurry/hurrycurry-dist-extra/archive/v2.1.1.tar.gz
 
     build-commands:
       - tar -xf book.webp.tar.zst -C client/menu/book
       - cargo --offline fetch --manifest-path Cargo.toml
       - make JSR=node -C data
       - make DATA_SEARCH_PATH=/app/share/hurrycurry/data CARGOFLAGS=--offline -C server discover server
-      - make -C client
+      - make -C client assets locales
       - install -Dm755 target/release/hurrycurry-server /app/bin/hurrycurry-server
       - install -Dm755 target/release/hurrycurry-discover /app/bin/hurrycurry-discover
       - install -dD /app/share/hurrycurry/data/recipes
