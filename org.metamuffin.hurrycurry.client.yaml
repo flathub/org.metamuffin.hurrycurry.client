@@ -78,6 +78,18 @@ modules:
     build-commands:
       - cd rust && ./install.sh --prefix=/app/sdk/rust-nightly --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose
 
+  - name: hurrycurry-dist
+    buildsystem: simple
+    sources:
+      - type: archive
+        sha256: 26213c02bcaed6b87dd362c020c074902d43aa019d7e0490c035a59ec7e1fc6f
+        url: https://codeberg.org/hurrycurry/hurrycurry-dist-extra/archive/fcf1cdbfa1cdbd73857b7d6507f667abde8eb0d1.tar.gz
+    build-commands:
+      - python translate.py
+      - install -Dm755 hurrycurry /app/bin/hurrycurry
+      - install -Dm644 org.metamuffin.hurrycurry.client.desktop /app/share/applications/org.metamuffin.hurrycurry.client.desktop
+      - install -Dm644 org.metamuffin.hurrycurry.client.metainfo.xml /app/share/metainfo/org.metamuffin.hurrycurry.client.metainfo.xml
+
   - name: hurrycurry
     buildsystem: simple
     build-options:
@@ -94,11 +106,6 @@ modules:
       - type: file
         sha256: 294062c1e23a47f6bf4277ab5bcd51c9ddcb65fd5ece22b48c0171b465a9d3e7
         url: https://s.metamuffin.org/static/hurrycurry-2.0/book.webp.tar.zst
-
-      - type: archive
-        sha256: 9b424afefb6ff38b2b42872e9937a0c264311bd82b25304fba078416b1d3d53c
-        url: https://codeberg.org/hurrycurry/hurrycurry-dist-extra/archive/v2.1.1.tar.gz
-
     build-commands:
       - tar -xf book.webp.tar.zst -C client/menu/book
       - cargo --offline fetch --manifest-path Cargo.toml
@@ -114,9 +121,6 @@ modules:
       - cp -vr data/maps/*.yaml /app/share/hurrycurry/data/maps
       - godot-editor --headless --export-pack wasm32-unknown-unknown /app/share/hurrycurry/client.pck client/project.godot
       - rm /app/bin/godot-editor
-      - install -Dm755 hurrycurry /app/bin/hurrycurry
-      - install -Dm644 org.metamuffin.hurrycurry.client.desktop /app/share/applications/org.metamuffin.hurrycurry.client.desktop
-      - install -Dm644 org.metamuffin.hurrycurry.client.metainfo.xml /app/share/metainfo/org.metamuffin.hurrycurry.client.metainfo.xml
       - >
         for size in {32,64,128,256,512}; do
           ffmpeg -i client/icons/main.png -vf scale=${size}:${size} "$size.png"
