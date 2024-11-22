@@ -82,8 +82,8 @@ modules:
     buildsystem: simple
     sources:
       - type: archive
-        sha256: 26213c02bcaed6b87dd362c020c074902d43aa019d7e0490c035a59ec7e1fc6f
-        url: https://codeberg.org/hurrycurry/hurrycurry-dist-extra/archive/fcf1cdbfa1cdbd73857b7d6507f667abde8eb0d1.tar.gz
+        sha256: 09b5d419cbae1b9919a3fae419fec49cd0416d4bc48a64158377320bee886466
+        url: https://codeberg.org/hurrycurry/hurrycurry-dist-extra/archive/v2.2.0.tar.gz
     build-commands:
       - python translate.py
       - install -Dm755 hurrycurry /app/bin/hurrycurry
@@ -98,16 +98,11 @@ modules:
         CARGO_HOME: /run/build/hurrycurry/cargo
     sources:
       - type: archive
-        sha256: f165fd6ddd2b0ce22cdb010049a8a39dd74de4943dbf0e994e6e0ca02b6b2a54
-        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v2.1.1.tar.gz
+        sha256: 55612d9d7fa10af650582dcaf4d5f03bc227b5b279c2b62aea754fa9fabeefc6
+        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v2.2.0.tar.gz
 
       - generated-sources.json
-
-      - type: file
-        sha256: 294062c1e23a47f6bf4277ab5bcd51c9ddcb65fd5ece22b48c0171b465a9d3e7
-        url: https://s.metamuffin.org/static/hurrycurry-2.0/book.webp.tar.zst
     build-commands:
-      - tar -xf book.webp.tar.zst -C client/menu/book
       - cargo --offline fetch --manifest-path Cargo.toml
       - make JSR=node -C data
       - make DATA_SEARCH_PATH=/app/share/hurrycurry/data CARGOFLAGS=--offline -C server discover server
