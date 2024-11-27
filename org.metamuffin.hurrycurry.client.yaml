@@ -67,14 +67,15 @@ modules:
         only-arches:
           - aarch64
         dest: rust
-        url: https://static.rust-lang.org/dist/2024-09-30/rust-nightly-aarch64-unknown-linux-gnu.tar.xz
-        sha256: 1f62e18f4097a7dee54867ea143e838a0e7f76fe72939da004b778ab97f45af4
+        # tbd: update
+        url: https://static.rust-lang.org/dist/2024-11-27/rust-nightly-aarch64-unknown-linux-gnu.tar.xz
+        sha256: 943775f84ad169e81f55a24dc101b5c41400d86782f28513f0912826fc6adcd3
       - type: archive
         only-arches:
           - x86_64
         dest: rust
-        url: https://static.rust-lang.org/dist/2024-09-30/rust-nightly-x86_64-unknown-linux-gnu.tar.xz
-        sha256: 4292aae15c11b6559c903743d1db309ee82f7f632644f8a9492571b2358931df
+        url: https://static.rust-lang.org/dist/2024-11-27/rust-nightly-x86_64-unknown-linux-gnu.tar.xz
+        sha256: 6c1813b174485c66a36e7667b4524dff12c97e89f4fb4909083f8ba9bdd55fee
     build-commands:
       - cd rust && ./install.sh --prefix=/app/sdk/rust-nightly --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose
 
@@ -82,8 +83,8 @@ modules:
     buildsystem: simple
     sources:
       - type: archive
-        sha256: 09b5d419cbae1b9919a3fae419fec49cd0416d4bc48a64158377320bee886466
-        url: https://codeberg.org/hurrycurry/hurrycurry-dist-extra/archive/v2.2.0.tar.gz
+        sha256: 29478bb03a97450e97c953782628d4820028353aeaffc7ee886b748e2b73feec
+        url: https://codeberg.org/hurrycurry/hurrycurry-dist-extra/archive/v2.2.1.tar.gz
     build-commands:
       - python translate.py
       - install -Dm755 hurrycurry /app/bin/hurrycurry
@@ -98,8 +99,8 @@ modules:
         CARGO_HOME: /run/build/hurrycurry/cargo
     sources:
       - type: archive
-        sha256: 55612d9d7fa10af650582dcaf4d5f03bc227b5b279c2b62aea754fa9fabeefc6
-        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v2.2.0.tar.gz
+        sha256: c33ac0383534d30c107438cc022ea1656c80fbbdeaa2398bbe3b9a363a9346dd
+        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v2.2.1.tar.gz
 
       - generated-sources.json
     build-commands:
