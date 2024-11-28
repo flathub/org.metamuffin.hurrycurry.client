@@ -20,7 +20,6 @@ build-options:
         # Only enable link-time optimization when targeting x86_64
         # (causes issues on other architectures)
         SCONS_FLAGS_EXTRA: use_lto=yes
-
   env:
     BUILD_NAME: hurrycurry
 
@@ -30,18 +29,15 @@ modules:
   - name: scons
     buildsystem: simple
     cleanup: ["*"]
-
     sources:
       - type: archive
         sha256: 6e928fc97984e719814270f6863f2183b3b72180b0162a5ed09db68c9994100c
         url: https://downloads.sourceforge.net/project/scons/scons/4.8.0/SCons-4.8.0.tar.gz
-
     build-commands:
       - python3 -m pip install --no-index --no-build-isolation --prefix=/app .
 
   - name: godot
     buildsystem: simple
-
     sources:
       - type: archive
         sha256: 751e55bfad8e04b846f9cf7b6eb80e058986a2cb1b103fc0fe6a4d8526a20e56
@@ -55,6 +51,7 @@ modules:
       - python3 /app/bin/scons $SCONS_FLAGS_EXTRA profile=custom.py target=template_release -j "$FLATPAK_BUILDER_N_JOBS"
       - install -Dm755 bin/godot.linuxbsd.template_release.* /app/bin/godot
       - install -Dm755 bin/godot.linuxbsd.editor.* /app/bin/godot-editor
+
   - name: rust
     buildsystem: simple
     build-options:
@@ -67,14 +64,14 @@ modules:
         only-arches:
           - aarch64
         dest: rust
-        url: https://static.rust-lang.org/dist/2024-09-30/rust-nightly-aarch64-unknown-linux-gnu.tar.xz
-        sha256: 1f62e18f4097a7dee54867ea143e838a0e7f76fe72939da004b778ab97f45af4
+        url: https://static.rust-lang.org/dist/2024-11-27/rust-nightly-aarch64-unknown-linux-gnu.tar.xz
+        sha256: 943775f84ad169e81f55a24dc101b5c41400d86782f28513f0912826fc6adcd3
       - type: archive
         only-arches:
           - x86_64
         dest: rust
-        url: https://static.rust-lang.org/dist/2024-09-30/rust-nightly-x86_64-unknown-linux-gnu.tar.xz
-        sha256: 4292aae15c11b6559c903743d1db309ee82f7f632644f8a9492571b2358931df
+        url: https://static.rust-lang.org/dist/2024-11-27/rust-nightly-x86_64-unknown-linux-gnu.tar.xz
+        sha256: 6c1813b174485c66a36e7667b4524dff12c97e89f4fb4909083f8ba9bdd55fee
     build-commands:
       - cd rust && ./install.sh --prefix=/app/sdk/rust-nightly --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose
 
@@ -86,21 +83,11 @@ modules:
         CARGO_HOME: /run/build/hurrycurry/cargo
     sources:
       - type: archive
-        sha256: f165fd6ddd2b0ce22cdb010049a8a39dd74de4943dbf0e994e6e0ca02b6b2a54
-        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v2.1.1.tar.gz
+        sha256: c33ac0383534d30c107438cc022ea1656c80fbbdeaa2398bbe3b9a363a9346dd
+        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v2.2.1.tar.gz
 
       - generated-sources.json
-
-      - type: file
-        sha256: 294062c1e23a47f6bf4277ab5bcd51c9ddcb65fd5ece22b48c0171b465a9d3e7
-        url: https://s.metamuffin.org/static/hurrycurry-2.0/book.webp.tar.zst
-
-      - type: archive
-        sha256: 9b424afefb6ff38b2b42872e9937a0c264311bd82b25304fba078416b1d3d53c
-        url: https://codeberg.org/hurrycurry/hurrycurry-dist-extra/archive/v2.1.1.tar.gz
-
     build-commands:
-      - tar -xf book.webp.tar.zst -C client/menu/book
       - cargo --offline fetch --manifest-path Cargo.toml
       - make JSR=node -C data
       - make DATA_SEARCH_PATH=/app/share/hurrycurry/data CARGOFLAGS=--offline -C server discover server
@@ -114,11 +101,20 @@ modules:
       - cp -vr data/maps/*.yaml /app/share/hurrycurry/data/maps
       - godot-editor --headless --export-pack wasm32-unknown-unknown /app/share/hurrycurry/client.pck client/project.godot
       - rm /app/bin/godot-editor
-      - install -Dm755 hurrycurry /app/bin/hurrycurry
-      - install -Dm644 org.metamuffin.hurrycurry.client.desktop /app/share/applications/org.metamuffin.hurrycurry.client.desktop
-      - install -Dm644 org.metamuffin.hurrycurry.client.metainfo.xml /app/share/metainfo/org.metamuffin.hurrycurry.client.metainfo.xml
       - >
         for size in {32,64,128,256,512}; do
           ffmpeg -i client/icons/main.png -vf scale=${size}:${size} "$size.png"
           install -Dm644 "$size.png" "/app/share/icons/hicolor/${size}x${size}/apps/org.metamuffin.hurrycurry.client.png"
         done
+
+  - name: hurrycurry-dist
+    buildsystem: simple
+    sources:
+      - type: archive
+        sha256: 29478bb03a97450e97c953782628d4820028353aeaffc7ee886b748e2b73feec
+        url: https://codeberg.org/hurrycurry/hurrycurry-dist-extra/archive/v2.2.1.tar.gz
+    build-commands:
+      - python translate.py
+      - install -Dm755 hurrycurry /app/bin/hurrycurry
+      - install -Dm644 org.metamuffin.hurrycurry.client.desktop /app/share/applications/org.metamuffin.hurrycurry.client.desktop
+      - install -Dm644 org.metamuffin.hurrycurry.client.metainfo.xml /app/share/metainfo/org.metamuffin.hurrycurry.client.metainfo.xml
