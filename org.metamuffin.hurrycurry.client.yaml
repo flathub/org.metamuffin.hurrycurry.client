@@ -83,8 +83,8 @@ modules:
         CARGO_HOME: /run/build/hurrycurry/cargo
     sources:
       - type: archive
-        sha256: c33ac0383534d30c107438cc022ea1656c80fbbdeaa2398bbe3b9a363a9346dd
-        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v2.2.1.tar.gz
+        sha256: d26d7b4fc6966e597f7d374235bbf7664eb8e8d833803b2b52f32e4f48b8a7f2
+        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v2.3.0.tar.gz
 
       - generated-sources.json
     build-commands:
@@ -111,8 +111,8 @@ modules:
     buildsystem: simple
     sources:
       - type: archive
-        sha256: 29478bb03a97450e97c953782628d4820028353aeaffc7ee886b748e2b73feec
-        url: https://codeberg.org/hurrycurry/hurrycurry-dist-extra/archive/v2.2.1.tar.gz
+        sha256: 14d90e3866603722fb995316cb497a36d59f59f448b99cc48548b58336980baa
+        url: https://codeberg.org/hurrycurry/hurrycurry-dist-extra/archive/v2.3.0.tar.gz
     build-commands:
       - python translate.py
       - install -Dm755 hurrycurry /app/bin/hurrycurry
