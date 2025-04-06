@@ -10,7 +10,7 @@ finish-args:
   - --socket=wayland
   - --socket=fallback-x11
   - --socket=pulseaudio
-  - --device=dri
+  - --device=all
   - --share=network
 
 build-options:
