@@ -91,7 +91,7 @@ modules:
       - cargo --offline fetch --manifest-path Cargo.toml
       - make JSR=node -C data
       - make DATA_SEARCH_PATH=/app/share/hurrycurry/data CARGOFLAGS=--offline -C server discover server
-      - make -C client assets locales
+      - make -C client assets
       - install -Dm755 target/release/hurrycurry-server /app/bin/hurrycurry-server
       - install -Dm755 target/release/hurrycurry-discover /app/bin/hurrycurry-discover
       - install -dD /app/share/hurrycurry/data/recipes
