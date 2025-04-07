@@ -113,6 +113,10 @@ modules:
       - type: archive
         sha256: 603d972cdb2be65312430409768a7dbad558fac3c2537c57bd05a4caa8f45180
         url: https://codeberg.org/hurrycurry/hurrycurry-dist-extra/archive/v2.3.1.tar.gz
+      - type: script
+        dest-filename: hurrycurry
+        commands:
+          - exec /app/bin/godot --main-pack /app/share/hurrycurry/client.pck $@
     build-commands:
       - python translate.py
       - install -Dm755 hurrycurry /app/bin/hurrycurry
