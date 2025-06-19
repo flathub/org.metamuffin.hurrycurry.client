@@ -65,7 +65,7 @@ modules:
           - aarch64
         dest: rust
         url: https://static.rust-lang.org/dist/2025-05-31/rust-nightly-aarch64-unknown-linux-gnu.tar.xz
-        sha256: 4089fb3f7c7e2c4220bb9b4596532328fe9e7142b166d7d5431962fa37787392
+        sha256: ac7e6732407f4a57cb26a525e116e83a2324395b1f376c327d27335509c5ed1d
       - type: archive
         only-arches:
           - x86_64
