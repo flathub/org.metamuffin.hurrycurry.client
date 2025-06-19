@@ -64,14 +64,14 @@ modules:
         only-arches:
           - aarch64
         dest: rust
-        url: https://static.rust-lang.org/dist/2024-11-27/rust-nightly-aarch64-unknown-linux-gnu.tar.xz
-        sha256: 943775f84ad169e81f55a24dc101b5c41400d86782f28513f0912826fc6adcd3
+        url: https://static.rust-lang.org/dist/2025-05-31/rust-nightly-aarch64-unknown-linux-gnu.tar.xz
+        sha256: 4089fb3f7c7e2c4220bb9b4596532328fe9e7142b166d7d5431962fa37787392
       - type: archive
         only-arches:
           - x86_64
         dest: rust
-        url: https://static.rust-lang.org/dist/2024-11-27/rust-nightly-x86_64-unknown-linux-gnu.tar.xz
-        sha256: 6c1813b174485c66a36e7667b4524dff12c97e89f4fb4909083f8ba9bdd55fee
+        url: https://static.rust-lang.org/dist/2025-05-31/rust-nightly-x86_64-unknown-linux-gnu.tar.xz
+        sha256: 4089fb3f7c7e2c4220bb9b4596532328fe9e7142b166d7d5431962fa37787392
     build-commands:
       - cd rust && ./install.sh --prefix=/app/sdk/rust-nightly --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose
 
@@ -83,10 +83,10 @@ modules:
         CARGO_HOME: /run/build/hurrycurry/cargo
     sources:
       - type: archive
-        sha256: c1ec7679441bce07d9223a7eaa210446892c5b8e4d936062991b0c22a66867af
-        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v2.3.1.tar.gz
-
+        sha256: c9876b38411e2af85ff90b4dc5b566f28b7e0ad5fb90180ff54c48e074dace88
+        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v2.3.2.tar.gz
       - generated-sources.json
+
     build-commands:
       - cargo --offline fetch --manifest-path Cargo.toml
       - make JSR=node -C data
@@ -111,8 +111,8 @@ modules:
     buildsystem: simple
     sources:
       - type: archive
-        sha256: 603d972cdb2be65312430409768a7dbad558fac3c2537c57bd05a4caa8f45180
-        url: https://codeberg.org/hurrycurry/hurrycurry-dist-extra/archive/v2.3.1.tar.gz
+        sha256: fb1449c4951f27d28c640850d3cdec60b413a27bd219a75c9053a4dbef2c1c03
+        url: https://codeberg.org/hurrycurry/hurrycurry-dist-extra/archive/v2.3.2.tar.gz
       - type: script
         dest-filename: hurrycurry
         commands:
