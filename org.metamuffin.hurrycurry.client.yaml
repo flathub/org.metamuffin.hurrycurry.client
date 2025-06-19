@@ -97,6 +97,7 @@ modules:
       - install -dD /app/share/hurrycurry/data/recipes
       - install -dD /app/share/hurrycurry/data/maps
       - cp -v data/index.yaml /app/share/hurrycurry/data/index.yaml
+      - cp -v data/book.json /app/share/hurrycurry/data/book.json
       - cp -vr data/recipes/*.yaml /app/share/hurrycurry/data/recipes
       - cp -vr data/maps/*.yaml /app/share/hurrycurry/data/maps
       - godot-editor --headless --export-pack wasm32-unknown-unknown /app/share/hurrycurry/client.pck client/project.godot
