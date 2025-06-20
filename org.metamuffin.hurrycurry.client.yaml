@@ -64,14 +64,14 @@ modules:
         only-arches:
           - aarch64
         dest: rust
-        url: https://static.rust-lang.org/dist/2024-11-27/rust-nightly-aarch64-unknown-linux-gnu.tar.xz
-        sha256: 943775f84ad169e81f55a24dc101b5c41400d86782f28513f0912826fc6adcd3
+        url: https://static.rust-lang.org/dist/2025-05-31/rust-nightly-aarch64-unknown-linux-gnu.tar.xz
+        sha256: ac7e6732407f4a57cb26a525e116e83a2324395b1f376c327d27335509c5ed1d
       - type: archive
         only-arches:
           - x86_64
         dest: rust
-        url: https://static.rust-lang.org/dist/2024-11-27/rust-nightly-x86_64-unknown-linux-gnu.tar.xz
-        sha256: 6c1813b174485c66a36e7667b4524dff12c97e89f4fb4909083f8ba9bdd55fee
+        url: https://static.rust-lang.org/dist/2025-05-31/rust-nightly-x86_64-unknown-linux-gnu.tar.xz
+        sha256: 4089fb3f7c7e2c4220bb9b4596532328fe9e7142b166d7d5431962fa37787392
     build-commands:
       - cd rust && ./install.sh --prefix=/app/sdk/rust-nightly --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose
 
@@ -83,10 +83,10 @@ modules:
         CARGO_HOME: /run/build/hurrycurry/cargo
     sources:
       - type: archive
-        sha256: c1ec7679441bce07d9223a7eaa210446892c5b8e4d936062991b0c22a66867af
-        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v2.3.1.tar.gz
-
+        sha256: fac37859bdb73e7a4581b8981886ecdad2e263a8922147f1c569db2690b3e775
+        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v2.3.2.tar.gz
       - generated-sources.json
+
     build-commands:
       - cargo --offline fetch --manifest-path Cargo.toml
       - make JSR=node -C data
@@ -97,6 +97,7 @@ modules:
       - install -dD /app/share/hurrycurry/data/recipes
       - install -dD /app/share/hurrycurry/data/maps
       - cp -v data/index.yaml /app/share/hurrycurry/data/index.yaml
+      - cp -v data/book.json /app/share/hurrycurry/data/book.json
       - cp -vr data/recipes/*.yaml /app/share/hurrycurry/data/recipes
       - cp -vr data/maps/*.yaml /app/share/hurrycurry/data/maps
       - godot-editor --headless --export-pack wasm32-unknown-unknown /app/share/hurrycurry/client.pck client/project.godot
@@ -111,8 +112,12 @@ modules:
     buildsystem: simple
     sources:
       - type: archive
-        sha256: 603d972cdb2be65312430409768a7dbad558fac3c2537c57bd05a4caa8f45180
-        url: https://codeberg.org/hurrycurry/hurrycurry-dist-extra/archive/v2.3.1.tar.gz
+        sha256: fb1449c4951f27d28c640850d3cdec60b413a27bd219a75c9053a4dbef2c1c03
+        url: https://codeberg.org/hurrycurry/hurrycurry-dist-extra/archive/v2.3.2.tar.gz
+      - type: script
+        dest-filename: hurrycurry
+        commands:
+          - exec /app/bin/godot --main-pack /app/share/hurrycurry/client.pck $@
     build-commands:
       - python translate.py
       - install -Dm755 hurrycurry /app/bin/hurrycurry
