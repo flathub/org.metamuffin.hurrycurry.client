@@ -83,8 +83,8 @@ modules:
         CARGO_HOME: /run/build/hurrycurry/cargo
     sources:
       - type: archive
-        sha256: d822c088806717055040d26d5c8e50508cf90a766b512b1acaabc7f42bc2d255
-        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v2.3.5.tar.gz
+        sha256: 27140aeb642f3edb04169b6102e720bfe965d2d082ce7c0d5ac5f8579715cad8
+        url: https://codeberg.org/hurrycurry/hurrycurry/archive/81bad4ada7a75cb337524962971f26682005f100.tar.gz
       - generated-sources.json
 
     build-commands:
