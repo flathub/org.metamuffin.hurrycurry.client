@@ -113,7 +113,7 @@ modules:
     buildsystem: simple
     sources:
       - type: archive
-        sha256: 23849384683bdabe7129f9d56a9a864204b12a8663e08524b6b3f5bea2bc82f7
+        sha256: fbb3eda1d126e33d5fb5df33b3fccfdf1ef6a7c03a3fe66c853343315758b3b9
         url: https://codeberg.org/hurrycurry/hurrycurry-dist-extra/archive/v3.0.0.tar.gz
       - type: script
         dest-filename: hurrycurry
