@@ -40,8 +40,8 @@ modules:
     buildsystem: simple
     sources:
       - type: archive
-        sha256: ddbd6527cdb3ddb02910b383301a5c9117b1c33c777ef1c86d1b1eea43dcb651
-        url: https://github.com/godotengine/godot/releases/download/4.4.1-stable/godot-4.4.1-stable.tar.xz
+        sha256: 2cdb383d68bfe646c832064b9063310745e8db03a2e4b59f5946ee934b95c67d
+        url: https://github.com/godotengine/godot/releases/download/4.5-stable/godot-4.5-stable.tar.xz
 
       - type: file
         path: custom.py
@@ -64,14 +64,14 @@ modules:
         only-arches:
           - aarch64
         dest: rust
-        url: https://static.rust-lang.org/dist/2025-05-31/rust-nightly-aarch64-unknown-linux-gnu.tar.xz
-        sha256: ac7e6732407f4a57cb26a525e116e83a2324395b1f376c327d27335509c5ed1d
+        url: https://static.rust-lang.org/dist/2025-10-09/rust-nightly-aarch64-unknown-linux-gnu.tar.xz
+        sha256: f7bf703941809692bbc597a91096ff07e7aa7c151f5f246b698d60f0c2c6272e
       - type: archive
         only-arches:
           - x86_64
         dest: rust
-        url: https://static.rust-lang.org/dist/2025-05-31/rust-nightly-x86_64-unknown-linux-gnu.tar.xz
-        sha256: 4089fb3f7c7e2c4220bb9b4596532328fe9e7142b166d7d5431962fa37787392
+        url: https://static.rust-lang.org/dist/2025-10-09/rust-nightly-x86_64-unknown-linux-gnu.tar.xz
+        sha256: dc789cf72265f801f3bb9a6aea5a075b9a682556a85bbcba852597c1cd7efc17
     build-commands:
       - cd rust && ./install.sh --prefix=/app/sdk/rust-nightly --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose
 
@@ -81,25 +81,26 @@ modules:
       append-path: /usr/lib/sdk/node20/bin:/app/sdk/rust-nightly/bin
       env:
         CARGO_HOME: /run/build/hurrycurry/cargo
+        HURRYCURRY_DATA_PATH: /app/share/hurrycurry/data
     sources:
       - type: archive
-        sha256: 27140aeb642f3edb04169b6102e720bfe965d2d082ce7c0d5ac5f8579715cad8
-        url: https://codeberg.org/hurrycurry/hurrycurry/archive/81bad4ada7a75cb337524962971f26682005f100.tar.gz
+        sha256: d0f5a0dcaad2bdc532e706f7e261cb2468882e4a72b11feb6535080d573ab1e3
+        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v3.0.0.tar.gz
       - generated-sources.json
 
     build-commands:
+      - sed -i "s/^const DISTRIBUTION := .*/const DISTRIBUTION := \"flatpak\"/" client/global.gd
       - cargo --offline fetch --manifest-path Cargo.toml
-      - make JSR=node -C data
-      - make DATA_SEARCH_PATH=/app/share/hurrycurry/data CARGOFLAGS=--offline -C server discover server
-      - make -C client assets
+      - make all_data JSR=node
+      - cargo build --frozen --release --bin hurrycurry-server
+      - cargo build --frozen --release --bin hurrycurry-discover
       - install -Dm755 target/release/hurrycurry-server /app/bin/hurrycurry-server
       - install -Dm755 target/release/hurrycurry-discover /app/bin/hurrycurry-discover
       - install -dD /app/share/hurrycurry/data/recipes
       - install -dD /app/share/hurrycurry/data/maps
-      - cp -v data/index.yaml /app/share/hurrycurry/data/index.yaml
-      - cp -v data/book.json /app/share/hurrycurry/data/book.json
-      - cp -vr data/recipes/*.yaml /app/share/hurrycurry/data/recipes
-      - cp -vr data/maps/*.yaml /app/share/hurrycurry/data/maps
+      - install -Dm644 data/index.yaml /app/share/hurrycurry/data/index.yaml
+      - install -Dm644 -t /app/share/hurrycurry/data/recipes data/recipes/*.yaml
+      - install -Dm644 -t /app/share/hurrycurry/data/maps data/maps/*.yaml
       - godot-editor --headless --export-pack wasm32-unknown-unknown /app/share/hurrycurry/client.pck client/project.godot
       - rm /app/bin/godot-editor
       - >
@@ -112,8 +113,8 @@ modules:
     buildsystem: simple
     sources:
       - type: archive
-        sha256: 10a6988875eac447104d220a380dd5de9874a004889be2ff0be552623c3a927d
-        url: https://codeberg.org/hurrycurry/hurrycurry-dist-extra/archive/v2.3.5.tar.gz
+        sha256: fbb3eda1d126e33d5fb5df33b3fccfdf1ef6a7c03a3fe66c853343315758b3b9
+        url: https://codeberg.org/hurrycurry/hurrycurry-dist-extra/archive/v3.0.0.tar.gz
       - type: script
         dest-filename: hurrycurry
         commands:
