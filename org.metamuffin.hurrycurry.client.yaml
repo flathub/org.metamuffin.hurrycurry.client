@@ -40,8 +40,8 @@ modules:
     buildsystem: simple
     sources:
       - type: archive
-        sha256: 2cdb383d68bfe646c832064b9063310745e8db03a2e4b59f5946ee934b95c67d
-        url: https://github.com/godotengine/godot/releases/download/4.5-stable/godot-4.5-stable.tar.xz
+        sha256: 559e11bdd85033640d49db67baa6f15be1128b2af38a5acc06e02b53363d8dde
+        url: https://github.com/godotengine/godot/releases/download/4.5.1-stable/godot-4.5.1-stable.tar.xz
 
       - type: file
         path: custom.py
@@ -84,8 +84,8 @@ modules:
         HURRYCURRY_DATA_PATH: /app/share/hurrycurry/data
     sources:
       - type: archive
-        sha256: d0f5a0dcaad2bdc532e706f7e261cb2468882e4a72b11feb6535080d573ab1e3
-        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v3.0.0.tar.gz
+        sha256: 6381a8384c0fd2b36f7bb9d8d5269346428c07a7585eb93812200c71ba0899d7
+        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v3.0.1.tar.gz
       - generated-sources.json
 
     build-commands:
@@ -113,8 +113,8 @@ modules:
     buildsystem: simple
     sources:
       - type: archive
-        sha256: fbb3eda1d126e33d5fb5df33b3fccfdf1ef6a7c03a3fe66c853343315758b3b9
-        url: https://codeberg.org/hurrycurry/hurrycurry-dist-extra/archive/v3.0.0.tar.gz
+        sha256: 08d83a37674169dfc1bb7cd70deb2fb6a29b1ec93080fc62bdfbbbc845b99e85
+        url: https://codeberg.org/hurrycurry/hurrycurry-dist-extra/archive/v3.0.1.tar.gz
       - type: script
         dest-filename: hurrycurry
         commands:
