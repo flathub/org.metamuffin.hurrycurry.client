@@ -108,19 +108,17 @@ modules:
           ffmpeg -i client/icons/main.png -vf scale=${size}:${size} "$size.png"
           install -Dm644 "$size.png" "/app/share/icons/hicolor/${size}x${size}/apps/org.metamuffin.hurrycurry.client.png"
         done
+      - make misc/hurrycurry.desktop misc/hurrycurry.metainfo.xml
+      - sed -i "s/^Icon=.*/Icon=org.metamuffin.hurrycurry.client/" misc/hurrycurry.desktop
+      - install -Dm644 misc/hurrycurry.desktop /app/share/applications/org.metamuffin.hurrycurry.client.desktop
+      - install -Dm644 misc/hurrycurry.metainfo.xml /app/share/metainfo/org.metamuffin.hurrycurry.client.metainfo.xml
 
   - name: hurrycurry-dist
     buildsystem: simple
     sources:
-      - type: archive
-        sha256: 08d83a37674169dfc1bb7cd70deb2fb6a29b1ec93080fc62bdfbbbc845b99e85
-        url: https://codeberg.org/hurrycurry/hurrycurry-dist-extra/archive/v3.0.1.tar.gz
       - type: script
         dest-filename: hurrycurry
         commands:
           - exec /app/bin/godot --main-pack /app/share/hurrycurry/client.pck $@
     build-commands:
-      - python translate.py
       - install -Dm755 hurrycurry /app/bin/hurrycurry
-      - install -Dm644 org.metamuffin.hurrycurry.client.desktop /app/share/applications/org.metamuffin.hurrycurry.client.desktop
-      - install -Dm644 org.metamuffin.hurrycurry.client.metainfo.xml /app/share/metainfo/org.metamuffin.hurrycurry.client.metainfo.xml
