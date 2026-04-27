@@ -16,6 +16,7 @@ builtin_graphite = "no"
 builtin_harfbuzz = "no"
 udev = "no"
 production = "yes"
+disable_path_overrides = "no"
 
 # Generated using https://godot-build-options-generator.github.io
 
