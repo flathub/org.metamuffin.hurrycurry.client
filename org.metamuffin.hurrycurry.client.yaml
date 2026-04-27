@@ -64,21 +64,21 @@ modules:
         only-arches:
           - aarch64
         dest: rust
-        url: https://static.rust-lang.org/dist/2025-10-09/rust-nightly-aarch64-unknown-linux-gnu.tar.xz
-        sha256: f7bf703941809692bbc597a91096ff07e7aa7c151f5f246b698d60f0c2c6272e
+        url: https://static.rust-lang.org/dist/rust-1.95.0-aarch64-unknown-linux-gnu.tar.xz
+        sha256: 094c9c36531911c5cc7dd6ab2d3069ab8dcd744d6239b0bda1387b243dfc391e
       - type: archive
         only-arches:
           - x86_64
         dest: rust
-        url: https://static.rust-lang.org/dist/2025-10-09/rust-nightly-x86_64-unknown-linux-gnu.tar.xz
-        sha256: dc789cf72265f801f3bb9a6aea5a075b9a682556a85bbcba852597c1cd7efc17
+        url: https://static.rust-lang.org/dist/rust-1.95.0-x86_64-unknown-linux-gnu.tar.xz
+        sha256: 2e0338f18ecbaa4a0f631b9e80e8b8e26bb6fe77dd5454fba8a70cf96c1e84a1
     build-commands:
-      - cd rust && ./install.sh --prefix=/app/sdk/rust-nightly --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose
+      - cd rust && ./install.sh --prefix=/app/sdk/rust --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose
 
   - name: hurrycurry
     buildsystem: simple
     build-options:
-      append-path: /usr/lib/sdk/node20/bin:/app/sdk/rust-nightly/bin
+      append-path: /usr/lib/sdk/node20/bin:/app/sdk/rust/bin
       env:
         CARGO_HOME: /run/build/hurrycurry/cargo
         HURRYCURRY_DATA_PATH: /app/share/hurrycurry/data
@@ -98,7 +98,7 @@ modules:
       - install -Dm755 target/release/hurrycurry-discover /app/bin/hurrycurry-discover
       - install -dD /app/share/hurrycurry/data/recipes
       - install -dD /app/share/hurrycurry/data/maps
-      - install -Dm644 data/index.yaml /app/share/hurrycurry/data/index.yaml
+      - install -Dm644 -t /app/share/hurrycurry/data data/{tiles,palettes,index}.yaml
       - install -Dm644 -t /app/share/hurrycurry/data/recipes data/recipes/*.yaml
       - install -Dm644 -t /app/share/hurrycurry/data/maps data/maps/*.yaml
       - godot-editor --headless --export-pack wasm32-unknown-unknown /app/share/hurrycurry/client.pck client/project.godot
