@@ -1,6 +1,6 @@
 app-id: org.metamuffin.hurrycurry.client
 runtime: org.freedesktop.Platform
-runtime-version: "24.08"
+runtime-version: "25.08"
 sdk: org.freedesktop.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.node20
@@ -40,8 +40,8 @@ modules:
     buildsystem: simple
     sources:
       - type: archive
-        sha256: 559e11bdd85033640d49db67baa6f15be1128b2af38a5acc06e02b53363d8dde
-        url: https://github.com/godotengine/godot/releases/download/4.5.1-stable/godot-4.5.1-stable.tar.xz
+        sha256: 3465f34ae41cb7d7c17b0516c7cce93cc8a7a4d62331456b7b18e4e1d1b064c2
+        url: https://github.com/godotengine/godot/releases/download/4.6.2-stable/godot-4.6.2-stable.tar.xz
 
       - type: file
         path: custom.py
@@ -64,28 +64,28 @@ modules:
         only-arches:
           - aarch64
         dest: rust
-        url: https://static.rust-lang.org/dist/2025-10-09/rust-nightly-aarch64-unknown-linux-gnu.tar.xz
-        sha256: f7bf703941809692bbc597a91096ff07e7aa7c151f5f246b698d60f0c2c6272e
+        url: https://static.rust-lang.org/dist/rust-1.95.0-aarch64-unknown-linux-gnu.tar.xz
+        sha256: 094c9c36531911c5cc7dd6ab2d3069ab8dcd744d6239b0bda1387b243dfc391e
       - type: archive
         only-arches:
           - x86_64
         dest: rust
-        url: https://static.rust-lang.org/dist/2025-10-09/rust-nightly-x86_64-unknown-linux-gnu.tar.xz
-        sha256: dc789cf72265f801f3bb9a6aea5a075b9a682556a85bbcba852597c1cd7efc17
+        url: https://static.rust-lang.org/dist/rust-1.95.0-x86_64-unknown-linux-gnu.tar.xz
+        sha256: 2e0338f18ecbaa4a0f631b9e80e8b8e26bb6fe77dd5454fba8a70cf96c1e84a1
     build-commands:
-      - cd rust && ./install.sh --prefix=/app/sdk/rust-nightly --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose
+      - cd rust && ./install.sh --prefix=/app/sdk/rust --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose
 
   - name: hurrycurry
     buildsystem: simple
     build-options:
-      append-path: /usr/lib/sdk/node20/bin:/app/sdk/rust-nightly/bin
+      append-path: /usr/lib/sdk/node20/bin:/app/sdk/rust/bin
       env:
         CARGO_HOME: /run/build/hurrycurry/cargo
         HURRYCURRY_DATA_PATH: /app/share/hurrycurry/data
     sources:
       - type: archive
-        sha256: 6381a8384c0fd2b36f7bb9d8d5269346428c07a7585eb93812200c71ba0899d7
-        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v3.0.1.tar.gz
+        sha256: 1aad54b7167b528d38febd2366033ea851a2990855d6117296c5eab70127cff7
+        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v3.1.0.tar.gz
       - generated-sources.json
 
     build-commands:
@@ -98,7 +98,7 @@ modules:
       - install -Dm755 target/release/hurrycurry-discover /app/bin/hurrycurry-discover
       - install -dD /app/share/hurrycurry/data/recipes
       - install -dD /app/share/hurrycurry/data/maps
-      - install -Dm644 data/index.yaml /app/share/hurrycurry/data/index.yaml
+      - install -Dm644 -t /app/share/hurrycurry/data data/{tiles,palettes,index}.yaml
       - install -Dm644 -t /app/share/hurrycurry/data/recipes data/recipes/*.yaml
       - install -Dm644 -t /app/share/hurrycurry/data/maps data/maps/*.yaml
       - godot-editor --headless --export-pack wasm32-unknown-unknown /app/share/hurrycurry/client.pck client/project.godot
@@ -108,19 +108,17 @@ modules:
           ffmpeg -i client/icons/main.png -vf scale=${size}:${size} "$size.png"
           install -Dm644 "$size.png" "/app/share/icons/hicolor/${size}x${size}/apps/org.metamuffin.hurrycurry.client.png"
         done
+      - make misc/hurrycurry.desktop misc/hurrycurry.metainfo.xml
+      - sed -i "s/^Icon=.*/Icon=org.metamuffin.hurrycurry.client/" misc/hurrycurry.desktop
+      - install -Dm644 misc/hurrycurry.desktop /app/share/applications/org.metamuffin.hurrycurry.client.desktop
+      - install -Dm644 misc/hurrycurry.metainfo.xml /app/share/metainfo/org.metamuffin.hurrycurry.client.metainfo.xml
 
-  - name: hurrycurry-dist
+  - name: hurrycurry-launch
     buildsystem: simple
     sources:
-      - type: archive
-        sha256: 08d83a37674169dfc1bb7cd70deb2fb6a29b1ec93080fc62bdfbbbc845b99e85
-        url: https://codeberg.org/hurrycurry/hurrycurry-dist-extra/archive/v3.0.1.tar.gz
       - type: script
         dest-filename: hurrycurry
         commands:
           - exec /app/bin/godot --main-pack /app/share/hurrycurry/client.pck $@
     build-commands:
-      - python translate.py
       - install -Dm755 hurrycurry /app/bin/hurrycurry
-      - install -Dm644 org.metamuffin.hurrycurry.client.desktop /app/share/applications/org.metamuffin.hurrycurry.client.desktop
-      - install -Dm644 org.metamuffin.hurrycurry.client.metainfo.xml /app/share/metainfo/org.metamuffin.hurrycurry.client.metainfo.xml
