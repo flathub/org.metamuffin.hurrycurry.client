@@ -43,6 +43,7 @@ modules:
     build-commands:
       - make misc/hurrycurry.desktop misc/hurrycurry.metainfo.xml
       - sed -i "s/^Icon=.*/Icon=org.metamuffin.hurrycurry.client/" misc/hurrycurry.desktop
+      - sed -i "s/^Exec=hurrycurry/Exec=hurrycurry-client/" misc/hurrycurry.desktop
       - install -Dm644 misc/hurrycurry.desktop /app/share/applications/org.metamuffin.hurrycurry.client.desktop
       - install -Dm644 misc/hurrycurry.metainfo.xml /app/share/metainfo/org.metamuffin.hurrycurry.client.metainfo.xml
       - install -Dm755 wrapper /app/bin/hurrycurry-client
@@ -72,8 +73,6 @@ modules:
       - cargo build --frozen --release --bin hurrycurry-discover
       - install -Dm755 target/release/hurrycurry-server /app/bin/hurrycurry-server
       - install -Dm755 target/release/hurrycurry-discover /app/bin/hurrycurry-discover
-      - install -dD /app/share/hurrycurry/data/recipes
-      - install -dD /app/share/hurrycurry/data/maps
       - install -Dm644 -t /app/share/hurrycurry/data data/{tiles,palettes,index}.yaml
       - install -Dm644 -t /app/share/hurrycurry/data/recipes data/recipes/*.yaml
       - install -Dm644 -t /app/share/hurrycurry/data/maps data/maps/*.yaml
