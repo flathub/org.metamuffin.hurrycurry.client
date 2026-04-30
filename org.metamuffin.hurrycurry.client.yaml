@@ -1,10 +1,14 @@
 app-id: org.metamuffin.hurrycurry.client
+
 runtime: org.freedesktop.Platform
 runtime-version: "25.08"
+
 sdk: org.freedesktop.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.node20
-command: hurrycurry
+  - org.freedesktop.Sdk.Extension.rust-stable
+
+command: hurrycurry-client
 finish-args:
   - --share=ipc
   - --socket=wayland
@@ -26,6 +30,54 @@ build-options:
 modules:
   - shared-modules/glu/glu-9.json
 
+  - name: hurrycurry-misc
+    buildsystem: simple
+    sources:
+      - type: script
+        dest-filename: wrapper
+        commands:
+          - exec /app/bin/godot --main-pack /app/share/hurrycurry/client.pck $@
+      - type: archive
+        sha256: 8636475664ca8cf346567189ce9e27b5c58b06d531df5de613d79f086bf64317
+        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v3.1.1-1.tar.gz
+    build-commands:
+      - make misc/hurrycurry.desktop misc/hurrycurry.metainfo.xml
+      - sed -i "s/^Icon=.*/Icon=org.metamuffin.hurrycurry.client/" misc/hurrycurry.desktop
+      - install -Dm644 misc/hurrycurry.desktop /app/share/applications/org.metamuffin.hurrycurry.client.desktop
+      - install -Dm644 misc/hurrycurry.metainfo.xml /app/share/metainfo/org.metamuffin.hurrycurry.client.metainfo.xml
+      - install -Dm755 wrapper /app/bin/hurrycurry-client
+      - >
+          for size in {32,64,128,256,512}; do
+            ffmpeg -hide_banner -loglevel warning -i client/icons/main.png -vf scale=${size}:${size} -frames:v 1 -update 1 "$size.png"
+            install -Dm644 "$size.png" "/app/share/icons/hicolor/${size}x${size}/apps/org.metamuffin.hurrycurry.client.png"
+          done
+
+  - name: hurrycurry-server
+    buildsystem: simple
+    build-options:
+      append-path: /usr/lib/sdk/node20/bin:/usr/lib/sdk/rust-stable/bin
+      env:
+        CARGO_HOME: /run/build/hurrycurry/cargo
+        HURRYCURRY_DATA_PATH: /app/share/hurrycurry/data
+        HURRYCURRY_DISTRIBUTION: flatpak
+    sources:
+      - type: archive
+        sha256: 8636475664ca8cf346567189ce9e27b5c58b06d531df5de613d79f086bf64317
+        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v3.1.1-1.tar.gz
+      - generated-sources.json
+    build-commands:
+      - rustc --version
+      - make all_data JSR=node
+      - cargo build --frozen --release --bin hurrycurry-server
+      - cargo build --frozen --release --bin hurrycurry-discover
+      - install -Dm755 target/release/hurrycurry-server /app/bin/hurrycurry-server
+      - install -Dm755 target/release/hurrycurry-discover /app/bin/hurrycurry-discover
+      - install -dD /app/share/hurrycurry/data/recipes
+      - install -dD /app/share/hurrycurry/data/maps
+      - install -Dm644 -t /app/share/hurrycurry/data data/{tiles,palettes,index}.yaml
+      - install -Dm644 -t /app/share/hurrycurry/data/recipes data/recipes/*.yaml
+      - install -Dm644 -t /app/share/hurrycurry/data/maps data/maps/*.yaml
+
   - name: scons
     buildsystem: simple
     cleanup: ["*"]
@@ -45,80 +97,19 @@ modules:
 
       - type: file
         path: custom.py
-
     build-commands:
       - python3 /app/bin/scons $SCONS_FLAGS_EXTRA profile=custom.py target=editor -j "$FLATPAK_BUILDER_N_JOBS"
       - python3 /app/bin/scons $SCONS_FLAGS_EXTRA profile=custom.py target=template_release -j "$FLATPAK_BUILDER_N_JOBS"
       - install -Dm755 bin/godot.linuxbsd.template_release.* /app/bin/godot
       - install -Dm755 bin/godot.linuxbsd.editor.* /app/bin/godot-editor
 
-  - name: rust
+  - name: hurrycurry-client
     buildsystem: simple
-    build-options:
-      strip: false
-      no-debuginfo: true
-    cleanup: ["*"]
-
     sources:
       - type: archive
-        only-arches:
-          - aarch64
-        dest: rust
-        url: https://static.rust-lang.org/dist/rust-1.95.0-aarch64-unknown-linux-gnu.tar.xz
-        sha256: 094c9c36531911c5cc7dd6ab2d3069ab8dcd744d6239b0bda1387b243dfc391e
-      - type: archive
-        only-arches:
-          - x86_64
-        dest: rust
-        url: https://static.rust-lang.org/dist/rust-1.95.0-x86_64-unknown-linux-gnu.tar.xz
-        sha256: 2e0338f18ecbaa4a0f631b9e80e8b8e26bb6fe77dd5454fba8a70cf96c1e84a1
-    build-commands:
-      - cd rust && ./install.sh --prefix=/app/sdk/rust --without=rust-docs --without=rust-docs-json-preview --disable-ldconfig --verbose
-
-  - name: hurrycurry
-    buildsystem: simple
-    build-options:
-      append-path: /usr/lib/sdk/node20/bin:/app/sdk/rust/bin
-      env:
-        CARGO_HOME: /run/build/hurrycurry/cargo
-        HURRYCURRY_DATA_PATH: /app/share/hurrycurry/data
-    sources:
-      - type: archive
-        sha256: d0c4fd51128deced60f115e9e3e61c8170be4c3ebd79439b7a9ab3e91e861a64
-        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v3.1.1.tar.gz
-      - generated-sources.json
-
+        sha256: 8636475664ca8cf346567189ce9e27b5c58b06d531df5de613d79f086bf64317
+        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v3.1.1-1.tar.gz
     build-commands:
       - sed -i "s/^const DISTRIBUTION := .*/const DISTRIBUTION := \"flatpak\"/" client/global.gd
-      - cargo --offline fetch --manifest-path Cargo.toml
-      - make all_data JSR=node
-      - cargo build --frozen --release --bin hurrycurry-server
-      - cargo build --frozen --release --bin hurrycurry-discover
-      - install -Dm755 target/release/hurrycurry-server /app/bin/hurrycurry-server
-      - install -Dm755 target/release/hurrycurry-discover /app/bin/hurrycurry-discover
-      - install -dD /app/share/hurrycurry/data/recipes
-      - install -dD /app/share/hurrycurry/data/maps
-      - install -Dm644 -t /app/share/hurrycurry/data data/{tiles,palettes,index}.yaml
-      - install -Dm644 -t /app/share/hurrycurry/data/recipes data/recipes/*.yaml
-      - install -Dm644 -t /app/share/hurrycurry/data/maps data/maps/*.yaml
       - godot-editor --headless --export-pack wasm32-unknown-unknown /app/share/hurrycurry/client.pck client/project.godot
       - rm /app/bin/godot-editor
-      - >
-        for size in {32,64,128,256,512}; do
-          ffmpeg -i client/icons/main.png -vf scale=${size}:${size} "$size.png"
-          install -Dm644 "$size.png" "/app/share/icons/hicolor/${size}x${size}/apps/org.metamuffin.hurrycurry.client.png"
-        done
-      - make misc/hurrycurry.desktop misc/hurrycurry.metainfo.xml
-      - sed -i "s/^Icon=.*/Icon=org.metamuffin.hurrycurry.client/" misc/hurrycurry.desktop
-      - install -Dm644 misc/hurrycurry.desktop /app/share/applications/org.metamuffin.hurrycurry.client.desktop
-      - install -Dm644 misc/hurrycurry.metainfo.xml /app/share/metainfo/org.metamuffin.hurrycurry.client.metainfo.xml
-
-  - name: hurrycurry-launch
-    buildsystem: simple
-    sources:
-      - type: script
-        dest-filename: hurrycurry
-        commands:
-          - exec /app/bin/godot --main-pack /app/share/hurrycurry/client.pck $@
-    build-commands:
-      - install -Dm755 hurrycurry /app/bin/hurrycurry
