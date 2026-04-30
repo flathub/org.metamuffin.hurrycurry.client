@@ -57,7 +57,6 @@ modules:
     build-options:
       append-path: /usr/lib/sdk/node20/bin:/usr/lib/sdk/rust-stable/bin
       env:
-        CARGO_HOME: /run/build/hurrycurry/cargo
         HURRYCURRY_DATA_PATH: /app/share/hurrycurry/data
         HURRYCURRY_DISTRIBUTION: flatpak
     sources:
@@ -66,8 +65,9 @@ modules:
         url: https://codeberg.org/hurrycurry/hurrycurry/archive/v3.1.1-1.tar.gz
       - generated-sources.json
     build-commands:
-      - rustc --version
       - make all_data JSR=node
+      - mkdir -p .cargo && cp cargo/config .cargo/config.toml
+      - cargo --offline fetch --manifest-path Cargo.toml
       - cargo build --frozen --release --bin hurrycurry-server
       - cargo build --frozen --release --bin hurrycurry-discover
       - install -Dm755 target/release/hurrycurry-server /app/bin/hurrycurry-server
