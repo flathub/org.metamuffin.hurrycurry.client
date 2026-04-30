@@ -84,8 +84,8 @@ modules:
         HURRYCURRY_DATA_PATH: /app/share/hurrycurry/data
     sources:
       - type: archive
-        sha256: 1aad54b7167b528d38febd2366033ea851a2990855d6117296c5eab70127cff7
-        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v3.1.0.tar.gz
+        sha256: d0c4fd51128deced60f115e9e3e61c8170be4c3ebd79439b7a9ab3e91e861a64
+        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v3.1.1.tar.gz
       - generated-sources.json
 
     build-commands:
