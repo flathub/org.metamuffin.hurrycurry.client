@@ -1,11 +1,11 @@
 app-id: org.metamuffin.hurrycurry.client
 
 runtime: org.freedesktop.Platform
-runtime-version: "25.08"
+runtime-version: "26.08"
 
 sdk: org.freedesktop.Sdk
 sdk-extensions:
-  - org.freedesktop.Sdk.Extension.node20
+  - org.freedesktop.Sdk.Extension.node26
   - org.freedesktop.Sdk.Extension.rust-stable
 
 command: hurrycurry-client
@@ -38,8 +38,8 @@ modules:
         commands:
           - exec /app/bin/godot --main-pack /app/share/hurrycurry/client.pck $@
       - type: archive
-        sha256: 8636475664ca8cf346567189ce9e27b5c58b06d531df5de613d79f086bf64317
-        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v3.1.1-1.tar.gz
+        sha256: 66647c73c19ab0a2bddd155d09343a7ff4cd168cd108f0cda783bd2452f4f0d1
+        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v3.1.2.tar.gz
     build-commands:
       - make misc/hurrycurry.desktop misc/hurrycurry.metainfo.xml
       - sed -i "s/^Icon=.*/Icon=org.metamuffin.hurrycurry.client/" misc/hurrycurry.desktop
@@ -56,14 +56,14 @@ modules:
   - name: hurrycurry-server
     buildsystem: simple
     build-options:
-      append-path: /usr/lib/sdk/node20/bin:/usr/lib/sdk/rust-stable/bin
+      append-path: /usr/lib/sdk/node26/bin:/usr/lib/sdk/rust-stable/bin
       env:
         HURRYCURRY_DATA_PATH: /app/share/hurrycurry/data
         HURRYCURRY_DISTRIBUTION: flatpak
     sources:
       - type: archive
-        sha256: 8636475664ca8cf346567189ce9e27b5c58b06d531df5de613d79f086bf64317
-        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v3.1.1-1.tar.gz
+        sha256: 66647c73c19ab0a2bddd155d09343a7ff4cd168cd108f0cda783bd2452f4f0d1
+        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v3.1.2.tar.gz
       - generated-sources.json
     build-commands:
       - make all_data JSR=node
@@ -91,8 +91,8 @@ modules:
     buildsystem: simple
     sources:
       - type: archive
-        sha256: 3465f34ae41cb7d7c17b0516c7cce93cc8a7a4d62331456b7b18e4e1d1b064c2
-        url: https://github.com/godotengine/godot/releases/download/4.6.2-stable/godot-4.6.2-stable.tar.xz
+        sha256: a18ce0ccec3ecc40b0dd6c4f5132ca934e9fb7c2979717940ff32aee1eb35481
+        url: https://github.com/godotengine/godot/releases/download/4.7.2-stable/godot-4.7.2-stable.tar.xz
 
       - type: file
         path: custom.py
@@ -106,8 +106,8 @@ modules:
     buildsystem: simple
     sources:
       - type: archive
-        sha256: 8636475664ca8cf346567189ce9e27b5c58b06d531df5de613d79f086bf64317
-        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v3.1.1-1.tar.gz
+        sha256: 66647c73c19ab0a2bddd155d09343a7ff4cd168cd108f0cda783bd2452f4f0d1
+        url: https://codeberg.org/hurrycurry/hurrycurry/archive/v3.1.2.tar.gz
     build-commands:
       - sed -i "s/^const DISTRIBUTION := .*/const DISTRIBUTION := \"flatpak\"/" client/global.gd
       - godot-editor --headless --export-pack wasm32-unknown-unknown /app/share/hurrycurry/client.pck client/project.godot
