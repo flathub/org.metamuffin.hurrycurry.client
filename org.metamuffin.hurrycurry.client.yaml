@@ -5,7 +5,7 @@ runtime-version: "26.08"
 
 sdk: org.freedesktop.Sdk
 sdk-extensions:
-  - org.freedesktop.Sdk.Extension.node20
+  - org.freedesktop.Sdk.Extension.node26
   - org.freedesktop.Sdk.Extension.rust-stable
 
 command: hurrycurry-client
@@ -56,7 +56,7 @@ modules:
   - name: hurrycurry-server
     buildsystem: simple
     build-options:
-      append-path: /usr/lib/sdk/node20/bin:/usr/lib/sdk/rust-stable/bin
+      append-path: /usr/lib/sdk/node26/bin:/usr/lib/sdk/rust-stable/bin
       env:
         HURRYCURRY_DATA_PATH: /app/share/hurrycurry/data
         HURRYCURRY_DISTRIBUTION: flatpak
